@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
+import { Button } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
+import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
+
 
 export default function HomeScreen() {
   const [loadingResi, setLoadingResi] = useState(true);
   const [formats, setFormats] = useState([]);
   const [myData, setMyData] = useState([]);
   const [videoYt, setVideoYt] = useState('');
+  const [format, setFormat] = useState({});
   
   const baseUrl = `http://localhost:5000/api/v1/`
 
@@ -32,36 +37,59 @@ export default function HomeScreen() {
   }
 
   return (
-    <div>
-      <div>
-        <input onChange={(e) => setVideoYt(e.target.value)} />
-        <button onClick={submit}>Submit</button>
+    <Container>
+      <div className="my-4">
+        {/* <input onChange={(e) => setVideoYt(e.target.value)} />
+        <button onClick={submit}>Submit</button> */}
+        <InputGroup>
+          <Input placeholder="Paste your video link here" onChange={(e) => setVideoYt(e.target.value)} type="search"/>
+          <InputGroupAddon addonType="append">
+            <Button onClick={submit}>Download</Button>
+          </InputGroupAddon>
+        </InputGroup>
       </div>
-      <div>
-      <section>
+      <div className="formats">
+      <section className="format">
         {formats.map((item, index) => (
           <div key={index}>
             {((item.qualityLabel !== null) && item.audioCodec) && (
-              <div onClick={()=>download(item)}>
-                <p><b>{item.qualityLabel}</b></p>
-              </div>
+              <Button onClick={()=>download(item)}>
+                <p><b>{item.qualityLabel}</b> <i className="fa fa-volume-up text-primary"></i></p>
+              </Button>
             ) }
           </div>
         ))}
       </section>
-      <section>
+      {/* <section className="format">
         {formats.map((item, index) => (
           <div key={index}>
             {((item.qualityLabel !== null) && !item.audioCodec) && (
-              <div onClick={()=>download(item)}>
-                <p><b>{item.qualityLabel}</b> noSound</p>
-              </div>
+              <Button onClick={()=>download(item)}>
+                <p><b>{item.qualityLabel}</b> <i className="fa fa-volume-off text-danger" ></i></p>
+              </Button>
             )}
           </div>
         ))}
-      </section>
+      </section> */}
+        <Row className="format">
+          {formats.map((item, index) => (
+            <>
+              {((item.qualityLabel !== null) && !item.audioCodec) && (
+                <div key={index} className="dew">
+                    <Col xs="3" sm="3" md="2" lg="2">
+                      <div className="my-btn" onClick={()=>download(item)}>
+                        <p className="myP">{item.qualityLabel}</p>
+                        <i className="fa fa-volume-off text-danger my-icon" ></i>
+                      </div>
+                    </Col>
+                </div>
+              )}
+            </>
+          ))}
+        </Row>
       </div>
-      <button onClick={()=> console.log(myData)}>cek</button>
-    </div>
+      {/* <Button color="danger" onClick={()=> console.log(format.qualityLabel)}>cek</Button> */}
+      
+    </Container>
   )
 }
