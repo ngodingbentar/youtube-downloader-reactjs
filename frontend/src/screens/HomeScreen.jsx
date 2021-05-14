@@ -14,7 +14,7 @@ export default function HomeScreen() {
   const [videoYt, setVideoYt] = useState('');
   const [format, setFormat] = useState({});
   
-  const baseUrl = `http://localhost:5000/api/v1/`
+  const baseUrl = `/api/v1/`
 
   const submit = async () => {
     setLoading(true)
