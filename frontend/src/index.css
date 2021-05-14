@@ -1,3 +1,11 @@
+.text-white{
+  color: white;
+}
+
+.text-black{
+  color: black;
+}
+
 .my-4 {
   margin: 1rem 0;
 }
@@ -48,14 +56,24 @@
 }
 
 .dew {
-  background: darkcyan;
   margin: 5px;
   justify-content: center;
   align-items: center;
+  border-radius: 15px;
+}
+
+.sound{
+  background: #0984e3;
+  color: white;
+}
+
+.no-sound{
+  background: #ffbe76;
 }
 
 .myP{
   margin: 0;
+  padding-right: 5px;
 }
 
 .my-icon{
