@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import { Button } from 'reactstrap';
+import { Button, Spinner } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 
 
 export default function HomeScreen() {
-  const [loadingResi, setLoadingResi] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [formats, setFormats] = useState([]);
   const [myData, setMyData] = useState([]);
   const [videoYt, setVideoYt] = useState('');
@@ -15,7 +15,7 @@ export default function HomeScreen() {
   const baseUrl = `http://localhost:5000/api/v1/`
 
   const submit = async () => {
-    setLoadingResi(true)
+    setLoading(true)
     try{
       const url = `${baseUrl}videoInfo?videoURL=${videoYt}`
       const result = await Axios.get(url)
@@ -23,7 +23,7 @@ export default function HomeScreen() {
       setMyData(result.data)
       setFormats(result.data.formats)
       if(result.data){
-        setLoadingResi(false)
+        setLoading(false)
       }
     } catch(err){
       console.log(err)
@@ -37,14 +37,14 @@ export default function HomeScreen() {
   }
 
   return (
-    <Container>
-      <div className="my-4">
-        {/* <input onChange={(e) => setVideoYt(e.target.value)} />
-        <button onClick={submit}>Submit</button> */}
-        <InputGroup>
+    <Container className="mt-16">
+      <h3 className="text-center">Online Video Downloader</h3>
+      <p className="text-center"><a href="https://www.instagram.com/ngodingbentar/" target="_blank">@ngodingbentar</a></p>
+      <div className="section-search">
+        <InputGroup className="search">
           <Input placeholder="Paste your video link here" onChange={(e) => setVideoYt(e.target.value)} type="search"/>
           <InputGroupAddon addonType="append">
-            <Button onClick={submit}>Download</Button>
+            <Button color="primary" onClick={submit}>Download</Button>
           </InputGroupAddon>
         </InputGroup>
       </div>
@@ -60,17 +60,12 @@ export default function HomeScreen() {
           </div>
         ))}
       </section>
-      {/* <section className="format">
-        {formats.map((item, index) => (
-          <div key={index}>
-            {((item.qualityLabel !== null) && !item.audioCodec) && (
-              <Button onClick={()=>download(item)}>
-                <p><b>{item.qualityLabel}</b> <i className="fa fa-volume-off text-danger" ></i></p>
-              </Button>
-            )}
+      <section>
+        {loading && (
+          <div className="text-center">
+            <Spinner color="primary" style={{ width: '3rem', height: '3rem' }} />{' '}
           </div>
-        ))}
-      </section> */}
+        )}
         <Row className="format">
           {formats.map((item, index) => (
             <>
@@ -87,6 +82,7 @@ export default function HomeScreen() {
             </>
           ))}
         </Row>
+      </section>
       </div>
       {/* <Button color="danger" onClick={()=> console.log(format.qualityLabel)}>cek</Button> */}
       
