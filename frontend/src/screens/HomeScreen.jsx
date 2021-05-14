@@ -31,15 +31,27 @@ export default function HomeScreen() {
         setIsEmpty(false)
       }
     } catch(err){
-      console.log('wadudu',err)
+      console.log(err)
       setError(true)
     }
     
   };
 
   const download = async (item) => {
-    const url = `${baseUrl}download?videoURL=${videoYt}&itag=${item.itag}`
-    window.open(url)
+    const videoName = myData.videoDetails.title
+    try{
+      const myurl = `${baseUrl}setname`
+      const result = await Axios.post(myurl, {videoName})
+      // console.log('res', result)
+      if(result.data === "setname"){
+        const url = `${baseUrl}download?videoURL=${videoYt}&itag=${item.itag}`
+        window.open(url)
+        // window.open(url, "", "width=200,height=100");
+      }
+    }catch(err){
+      console.log(err)
+    }
+    
   }
 
   const wadudu = async (item) => {
@@ -70,6 +82,7 @@ export default function HomeScreen() {
         )}
         {(formats && !loading && !isEmpty) && (
           <section>
+            <p className="text-center"><b>{myData.videoDetails.title}</b></p>
             <Row className="format">
               {formats.map((item) => (
                 <div key={item.lastModified}>

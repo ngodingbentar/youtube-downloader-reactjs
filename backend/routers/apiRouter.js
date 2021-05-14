@@ -6,6 +6,7 @@ import ytdl from 'ytdl-core'
 dotenv.config()
 
 const apiRouter = express.Router();
+let thisName = ''
 
 apiRouter.get('/videoInfo',
   expressAsyncHandler(async (req, res) => {
@@ -15,16 +16,26 @@ apiRouter.get('/videoInfo',
   })
 )
 
+apiRouter.post('/setname',
+  expressAsyncHandler(async (req, res) => {
+    thisName = req.body.videoName
+    res.send('setname')
+  })
+)
+
 apiRouter.get('/download',
   expressAsyncHandler(async (req, res) => {
     const videoURL = req.query.videoURL;
     const itag = req.query.itag;
-    res.header("Content-Disposition",'attachment;\ filename="video.mp4"');
+    const myname=`${thisName}.mp4`
+    res.header("Content-Disposition",`attachment;\ filename=${myname}`);
     ytdl(videoURL,{
       filter: format => format.itag == itag
     }).pipe(res);
   })
 )
+
+
 
 
 export default apiRouter;
