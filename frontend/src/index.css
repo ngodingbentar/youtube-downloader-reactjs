@@ -79,3 +79,17 @@
 .my-icon{
   margin: auto;
 }
+
+
+.platform {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.platform input{
+  margin: auto 10px;
+}
+.platform label {
+  margin-bottom: 0;
+}

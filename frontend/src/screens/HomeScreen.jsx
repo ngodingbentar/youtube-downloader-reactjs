@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { Button, Spinner } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-
+import { InputGroup, InputGroupAddon, InputGroupText, Input, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Form, FormGroup, Label, FormText } from 'reactstrap';
 
 export default function HomeScreen() {
   const [loading, setLoading] = useState(false);
@@ -13,6 +13,12 @@ export default function HomeScreen() {
   const [myData, setMyData] = useState([]);
   const [videoYt, setVideoYt] = useState('');
   const [format, setFormat] = useState({});
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [platform, setPlatform] = useState("youtube");
+
+  const toggle = () => setDropdownOpen(prevState => !prevState);
+
   
   const baseUrl = `/api/v1/`
 
@@ -21,14 +27,19 @@ export default function HomeScreen() {
     setError(false)
     setIsEmpty(true)
     try{
-      const url = `${baseUrl}videoInfo?videoURL=${videoYt}`
-      const result = await Axios.get(url)
-      // console.log('result', result.data)
-      setMyData(result.data)
-      setFormats(result.data.formats)
-      if(result.data){
-        setLoading(false)
-        setIsEmpty(false)
+      if(platform == "instagram"){
+        const url = `${baseUrl}ig?videoURL=${videoYt}`
+        const result = await Axios.get(url)
+        console.log('ini iggg', result)
+      } else {
+        const url = `${baseUrl}videoInfo?videoURL=${videoYt}`
+        const result = await Axios.get(url)
+        setMyData(result.data)
+        setFormats(result.data.formats)
+        if(result.data){
+          setLoading(false)
+          setIsEmpty(false)
+        }
       }
     } catch(err){
       console.log(err)
@@ -53,6 +64,7 @@ export default function HomeScreen() {
     }
     
   }
+  
 
   const wadudu = async (item) => {
     setVideoYt(item)
@@ -65,11 +77,36 @@ export default function HomeScreen() {
     console.log(url) 
   }
 
+  const thisPlatform = async (item) => {
+    console.log(item)
+    setPlatform(item)
+  }
+
   return (
     <Container className="mt-16">
       <h3 className="text-center">Online Video Downloader</h3>
-      <button onClick={()=>downIg()}>downIg</button>
+      {/* <button onClick={()=>downIg()}>downIg</button> */}
       <p className="text-center"><a href="https://www.instagram.com/ngodingbentar/" target="_blank">@ngodingbentar</a></p>
+      <div className="platform">
+        <input
+          type="radio"
+          id="youtube"
+          name="platform"
+          value="youtube"
+          checked={platform === "youtube"}
+          onChange={e => thisPlatform(e.currentTarget.value)}
+        />
+        <label htmlFor="youtube">Youtube</label>
+        <input
+          type="radio"
+          id="instagram"
+          name="platform"
+          value="instagram"
+          checked={platform === "instagram"}
+          onChange={e => thisPlatform(e.currentTarget.value)}
+        />
+        <label htmlFor="instagram">Instagram</label>
+      </div>
       <div className="section-search">
         <InputGroup className="search">
           <Input placeholder="Paste your video link here" onChange={(e) => wadudu(e.target.value)} type="search"/>
@@ -86,6 +123,15 @@ export default function HomeScreen() {
         )}
         {error && (
           <p>Invalid URL</p>
+        )}
+        {platform == "instagram" ? (
+          <>
+            <h1>Instagram</h1>
+          </>
+        ) : (
+          <>
+            {/* <h1>Bukan IG</h1> */}
+          </>
         )}
         {(formats && !loading && !isEmpty) && (
           <section>
