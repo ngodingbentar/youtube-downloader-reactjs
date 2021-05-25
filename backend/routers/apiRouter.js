@@ -73,10 +73,8 @@ apiRouter.get('/ig2',
       const videoLink = await getVideo(videoURL);
       if (videoLink !== undefined) {
         res.json({ downloadLink: videoLink });
-        console.log(`videoLink: ${videoLink}, url: ${videoURL}`);
       } else {
         res.json({ error: "The link you have entered is invalid. " });
-        console.log(`videoLink: ${videoLink}, url: ${videoURL}`);
       }
     } catch (err) {
       res.json({

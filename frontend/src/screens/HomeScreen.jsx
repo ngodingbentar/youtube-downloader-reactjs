@@ -12,6 +12,7 @@ export default function HomeScreen() {
   const [formats, setFormats] = useState([]);
   const [myData, setMyData] = useState([]);
   const [videoYt, setVideoYt] = useState('');
+  const [videoIG, setVideoIG] = useState('');
   const [format, setFormat] = useState({});
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -28,9 +29,14 @@ export default function HomeScreen() {
     setIsEmpty(true)
     try{
       if(platform == "instagram"){
-        const url = `${baseUrl}ig?videoURL=${videoYt}`
+        const url = `${baseUrl}ig2?videoURL=${videoYt}`
         const result = await Axios.get(url)
-        console.log('ini iggg', result)
+        if(result.data){
+          setLoading(false)
+          setVideoIG(result.data.downloadLink)
+          window.open(result.data.downloadLink)
+        }
+        
       } else {
         const url = `${baseUrl}videoInfo?videoURL=${videoYt}`
         console.log('url', url)
@@ -124,15 +130,6 @@ export default function HomeScreen() {
         )}
         {error && (
           <p>Invalid URL</p>
-        )}
-        {platform == "instagram" ? (
-          <>
-            <h1>Instagram</h1>
-          </>
-        ) : (
-          <>
-            {/* <h1>Bukan IG</h1> */}
-          </>
         )}
         {(formats && !loading && !isEmpty) && (
           <section>
