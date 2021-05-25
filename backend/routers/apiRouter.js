@@ -1,6 +1,8 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import dotenv from 'dotenv'
+import axios from 'axios'
+import cheerio from 'cheerio'
 import ytdl from 'ytdl-core'
 
 dotenv.config()
@@ -20,6 +22,42 @@ apiRouter.post('/setname',
   expressAsyncHandler(async (req, res) => {
     thisName = req.body.videoName
     res.send('setname')
+  })
+)
+
+
+const getVideo = async url => {
+  const html = await axios.get(url);
+  console.log(`html: ${html.data}`);
+  const $ = cheerio.load(html.data);
+  // console.log(`cheerio: ${$}`);
+  const videoString = $("meta[property='og:video']").attr("content");
+  console.log(`videoString: ${videoString}`);
+  return videoString;
+};
+
+apiRouter.get('/ig',
+  expressAsyncHandler(async (req, res) => {
+    res.send('it works')
+  })
+)
+
+apiRouter.post('/ig',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const videoLink = await getVideo(req.body.url);
+      if (videoLink !== undefined) {
+        res.json({ downloadLink: videoLink });
+        console.log(`videoLink: ${videoLink}, url: ${req.body.url}`);
+      } else {
+        res.json({ error: "The link you have entered is invalid. " });
+        console.log(`videoLink: ${videoLink}, url: ${req.body.url}`);
+      }
+    } catch (err) {
+      res.json({
+        error: "There is a problem with the link you have provided."
+      });
+    }
   })
 )
 

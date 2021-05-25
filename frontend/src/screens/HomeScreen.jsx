@@ -59,9 +59,16 @@ export default function HomeScreen() {
     setIsEmpty(true)
   }
 
+  const downIg = async () => {
+    const url = 'https://instagram.fsub3-2.fna.fbcdn.net/v/t51.2885-15/e35/190041757_773774123342047_4165319150335122909_n.jpg?tp=1&_nc_ht=instagram.fsub3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=1_hXH0NCAr8AX_kDRt9&edm=AABBvjUBAAAA&ccb=7-4&oh=5b743377f6b3bd2bbb9f398dcd986516&oe=60B29542&_nc_sid=83d603'
+    window.open(url)
+    console.log(url) 
+  }
+
   return (
     <Container className="mt-16">
       <h3 className="text-center">Online Video Downloader</h3>
+      <button onClick={()=>downIg()}>downIg</button>
       <p className="text-center"><a href="https://www.instagram.com/ngodingbentar/" target="_blank">@ngodingbentar</a></p>
       <div className="section-search">
         <InputGroup className="search">
