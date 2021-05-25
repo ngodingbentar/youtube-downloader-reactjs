@@ -30,11 +30,8 @@ apiRouter.post('/setname',
 
 const getVideo = async url => {
   const html = await axios.get(url);
-  console.log(`html: ${html.data}`);
   const $ = cheerio.load(html.data);
-  // console.log(`cheerio: ${$}`);
   const videoString = $("meta[property='og:video']").attr("content");
-  console.log(`videoString: ${videoString}`);
   return videoString;
 };
 
@@ -50,10 +47,8 @@ apiRouter.post('/ig',
       const videoLink = await getVideo(req.body.url);
       if (videoLink !== undefined) {
         res.json({ downloadLink: videoLink });
-        console.log(`videoLink: ${videoLink}, url: ${req.body.url}`);
       } else {
         res.json({ error: "The link you have entered is invalid. " });
-        console.log(`videoLink: ${videoLink}, url: ${req.body.url}`);
       }
     } catch (err) {
       res.json({
@@ -67,7 +62,6 @@ apiRouter.get('/ig2',
   expressAsyncHandler(async (req, res) => {
     const v = 'https://www.instagram.com/tv/COXYd0Dgk59/?utm_source=ig_web_copy_link'
     const videoURL = req.query.videoURL;
-    console.log('videoURL',videoURL)
 
     try {
       const videoLink = await getVideo(videoURL);
