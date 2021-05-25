@@ -18,6 +18,8 @@ apiRouter.get('/videoInfo',
   })
 )
 
+
+
 apiRouter.post('/setname',
   expressAsyncHandler(async (req, res) => {
     thisName = req.body.videoName
@@ -58,6 +60,30 @@ apiRouter.post('/ig',
         error: "There is a problem with the link you have provided."
       });
     }
+  })
+)
+
+apiRouter.get('/ig2',
+  expressAsyncHandler(async (req, res) => {
+    const v = 'https://www.instagram.com/tv/COXYd0Dgk59/?utm_source=ig_web_copy_link'
+    const videoURL = req.query.videoURL;
+    console.log('videoURL',videoURL)
+
+    try {
+      const videoLink = await getVideo(videoURL);
+      if (videoLink !== undefined) {
+        res.json({ downloadLink: videoLink });
+        console.log(`videoLink: ${videoLink}, url: ${videoURL}`);
+      } else {
+        res.json({ error: "The link you have entered is invalid. " });
+        console.log(`videoLink: ${videoLink}, url: ${videoURL}`);
+      }
+    } catch (err) {
+      res.json({
+        error: "There is a problem with the link you have provided."
+      });
+    }
+
   })
 )
 

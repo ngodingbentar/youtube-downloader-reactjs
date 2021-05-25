@@ -33,6 +33,7 @@ export default function HomeScreen() {
         console.log('ini iggg', result)
       } else {
         const url = `${baseUrl}videoInfo?videoURL=${videoYt}`
+        console.log('url', url)
         const result = await Axios.get(url)
         setMyData(result.data)
         setFormats(result.data.formats)
