@@ -18,13 +18,13 @@
     "express": "4.17.1",
     "express-async-handler": "1.1.4",
     "request": "2.88.2",
-    "ytdl-core": "^4.8.0"
+    "ytdl-core": "^4.8.3"
   },
   "devDependencies": {
     "nodemon": "2.0.4"
   },
   "engines": {
-    "node": "14.16.1",
-    "npm": "6.14.12"
+    "node": "14.17.0",
+    "npm": "6.14.13"
   }
 }
