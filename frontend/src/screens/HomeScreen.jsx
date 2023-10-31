@@ -52,7 +52,8 @@ export default function HomeScreen() {
       const myurl = `${baseUrl}setname`
       const result = await Axios.post(myurl, {videoName})
       if(result.data === "setname"){
-        const url = `${baseUrl}download?videoURL=${videoYt}&itag=${item.itag}`
+        // const url = `${baseUrl}download?videoURL=${videoYt}&itag=${item.itag}`
+        const url = `http://localhost:5000/api/v1/download?videoURL=${videoYt}&itag=${item.itag}`
         window.open(url)
         // window.open(url, "", "width=200,height=100");
       }
